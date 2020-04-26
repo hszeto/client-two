@@ -7,11 +7,18 @@ class HomeController < ApplicationController
       redirect_to "#{ENV['OAUTH_PROVIDER_URL']}/oauth/authorize?client_id=#{ENV['CLIENT_TOKEN']}&redirect_uri=#{ENV['OAUTH_REDIRECT_URI']}&response_type=code"
     end
   end
-def create_session
+
+  def create_session
     response = HTTParty.post("#{ENV['OAUTH_PROVIDER_URL']}/oauth/token",
       body: "client_id=#{ENV['CLIENT_TOKEN']}&client_secret=#{ENV['CLIENT_SECRET']}&code=#{params[:code]}&grant_type=authorization_code&redirect_uri=#{ENV['OAUTH_REDIRECT_URI']}")
     session[:access_token] = response['access_token']
 
     redirect_to root_path
+  end
+
+  def refresh_session
+    cookies.delete :_client_two_session
+
+    redirect_to "#{ENV['OAUTH_PROVIDER_URL']}/admin/logout"
   end
 end

@@ -1,0 +1,10 @@
+<div class='well-center'>
+  <h1>Client TWO</h1>
+
+  <% if @owner['email'] %>
+    <p>You are log in as <%= @owner['email']%></p>
+    <p><%= link_to 'Client-One', ENV['CLIENT_ONE_URL'] %></p>
+  <% else %>
+    <%= link_to 'Login', ENV['OAUTH_PROVIDER_URL'] %>
+  <% end %>
+</div>
